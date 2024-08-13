@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import * as React from "react";
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import Home from "./Home";
+import Checkout from "./Checkout";
+import Dog from "./Dog";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 function App() {
+  const theme = createTheme({
+    palette: {
+      siteYellow: {
+        main: "#FE5502",
+        contrastText: "#FFFFFF"
+      }
+  }})
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+    <Routes>
+      <Route element={<Home />} path="/" />
+      <Route element={<Checkout />} path="/checkout" />
+      <Route element={<Dog />} path="/dog/:name" />
+    </Routes>
+    </ThemeProvider>
   );
 }
 
 export default App;
+       
