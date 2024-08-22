@@ -1,29 +1,30 @@
 import * as React from "react";
-import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import Home from "./Home";
-import Checkout from "./Checkout";
-import Dog from "./Dog";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Home from "./routes/Home";
+import Checkout from "./routes/Checkout";
+import Dog from "./routes/Dog";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import NavBar from "./ui/NavBar";
 
 function App() {
   const theme = createTheme({
     palette: {
       siteYellow: {
         main: "#FE5502",
-        contrastText: "#FFFFFF"
-      }
-  }})
+        contrastText: "#FFFFFF",
+      },
+    },
+  });
   return (
     <ThemeProvider theme={theme}>
-    <Routes>
-      <Route element={<Home />} path="/" />
-      <Route element={<Checkout />} path="/checkout" />
-      <Route element={<Dog />} path="/dog/:name" />
-    </Routes>
+      <NavBar />
+      <Routes>
+        <Route element={<Home />} path="/" />
+        <Route element={<Dog />} path="/dog/:name" />
+        <Route element={<Checkout />} path="/checkout" />
+      </Routes>
     </ThemeProvider>
   );
 }
 
 export default App;
-       

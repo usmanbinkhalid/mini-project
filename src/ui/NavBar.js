@@ -1,13 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
+import { useLocation, useNavigate } from "react-router-dom";
+import debounce from "lodash.debounce";
 
-function NavBar({onChange, search}) {
+function NavBar() {
+  const [query, setQuery] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  
+  const handleChange = (e) => {
+    setQuery(e.target.value);
+  };
+
+  const debouncedResults = useMemo(() => {
+    return debounce(handleChange, 300);
+  }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (query) {
+      params.append("dog", query);
+    } else {
+      params.delete("dog");
+    }
+    navigate(`${location.pathname}?${params.toString()}`);
+
+    return () => {
+      debouncedResults.cancel();
+    };
+  }, [query]);
+
   return (
     <div className="sticky top-0 bg-white z-10 mb-2">
       <nav className="flex justify-between px-10px py-30px">
@@ -41,13 +67,20 @@ function NavBar({onChange, search}) {
               </a>
             </div>
           </div>
-          
         </section>
-        
+
         <div className="flex items-center pr-9 [&>*]:px-2">
-        <div id="searchBar" className="h-10 w-96 mx-4 rounded-2xl flex justify-around items-center bg-gray-100">
-            <SearchIcon/>
-            <input type="text" className="w-80 mr-2 rounded-2xl px-4" placeholder="Search..." value={search} onChange={onChange}/>
+          <div
+            id="searchBar"
+            className="h-10 w-96 mx-4 rounded-2xl flex justify-around items-center bg-gray-100"
+          >
+            <SearchIcon />
+            <input
+              type="text"
+              className="w-80 mr-2 rounded-2xl px-4"
+              placeholder="Search..."
+              onChange={debouncedResults}
+            />
           </div>
           <Link to="/checkout">
             <IconButton color="dark">

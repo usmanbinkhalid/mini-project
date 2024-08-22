@@ -18,14 +18,6 @@ function DogCarousel({ breed }) {
     });
   }
 
-  useEffect(() => {
-    const viewport = document.getElementById("viewport");
-    const images = viewport.querySelectorAll("img");
-    images.forEach((img) => {
-      img.setAttribute("style", `transform: translateX(-${100 * imageIndex}%)`);
-    });
-  }, [imageIndex]);
-
   return (
     <div className="flex flex-col h-fit items-center">
       <div className="relative">
@@ -34,21 +26,12 @@ function DogCarousel({ breed }) {
             <ArrowBackIcon />
           </IconButton>
         </div>
-        <div
-          className="flex m-4 h-96 w-80 overflow-hidden rounded-2xl"
-          id="viewport"
-        >
-          {breed.allImages.map((image) => {
-            return (
               <img
-                key={image}
-                src={image}
-                className="h-96 w-80 object-cover rounded-2xl shadow-xl transition"
-                alt={`This is a photo of a ${breed.name}`}
+                key={breed.allImages[imageIndex]}
+                src={breed.allImages[imageIndex]}
+                className="object-cover h-96 w-80 m-4 rounded-2xl"
+                alt={`This is a photo of a ${breed.name} dog`}
               />
-            );
-          })}
-        </div>
         <div className="absolute inset-y-0 -right-11 h-fit top-1/2">
           <IconButton color="siteYellow" onClick={handleNext}>
             <ArrowForwardIcon />

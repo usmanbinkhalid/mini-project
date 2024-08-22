@@ -5,7 +5,6 @@ import PetsIcon from "@mui/icons-material/Pets";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { IconButton } from "@mui/material";
-import { ACTIONS } from "./Core";
 
 function DogContainer({ data: { name, allImages } }) {
   const [count, setCount] = useState(0);
